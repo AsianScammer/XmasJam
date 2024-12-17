@@ -256,3 +256,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_Script: {fileID: 11500000, guid: afa5e50d02006a34f876c48cfb87f175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentPrefab: {fileID: 2245171391332744158}
+  numberOfFragments: 4
+  rotationTorqueRange: 200
+  initialForceRange: {x: 2, y: 2}
+  spawnOffset: 100

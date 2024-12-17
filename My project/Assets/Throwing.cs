@@ -1,67 +1,60 @@
 using UnityEngine;
 
-/// <summary>
-/// Drag a Rigidbody2D by selecting one of its colliders by pressing the mouse down.
-/// When the collider is selected, add a TargetJoint2D.
-/// While the mouse is moving, continually set the target to the mouse position.
-/// When the mouse is released, the TargetJoint2D is deleted.`
-/// </summary>
 public class Throwing : MonoBehaviour
 {
-	public LayerMask m_DragLayers;
+    public LayerMask m_DragLayers;
 
-	[Range (0.0f, 100.0f)]
-	public float m_Damping = 1.0f;
+    [Range(0.0f, 100.0f)]
+    public float m_Damping = 1.0f;
 
-	[Range (0.0f, 100.0f)]
-	public float m_Frequency = 5.0f;
+    [Range(0.0f, 100.0f)]
+    public float m_Frequency = 5.0f;
 
-	public bool m_DrawDragLine = true;
-	public Color m_Color = Color.cyan;
+    public bool m_DrawDragLine = true;
+    public Color m_Color = Color.cyan;
 
-	private TargetJoint2D m_TargetJoint;
+    private TargetJoint2D m_TargetJoint;
+    private Rigidbody2D m_HeldObject; // Track the Rigidbody2D currently being held
 
-	void Update ()
-	{
-		// Calculate the world position for the mouse.
-		var worldPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+    public Rigidbody2D HeldObject => m_HeldObject; // Public property to expose the held object
 
-		if (Input.GetMouseButtonDown (0))
-		{
-			// Fetch the first collider.
-			// NOTE: We could do this for multiple colliders.
-			var collider = Physics2D.OverlapPoint (worldPos, m_DragLayers);
-			if (!collider)
-				return;
+    void Update()
+    {
+        var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			// Fetch the collider body.
-			var body = collider.attachedRigidbody;
-			if (!body)
-				return;
+        if (Input.GetMouseButtonDown(0))
+        {
+            var collider = Physics2D.OverlapPoint(worldPos, m_DragLayers);
+            if (!collider)
+                return;
 
-			// Add a target joint to the Rigidbody2D GameObject.
-			m_TargetJoint = body.gameObject.AddComponent<TargetJoint2D> ();
-			m_TargetJoint.dampingRatio = m_Damping;
-			m_TargetJoint.frequency = m_Frequency;
+            var body = collider.attachedRigidbody;
+            if (!body)
+                return;
 
-			// Attach the anchor to the local-point where we clicked.
-			m_TargetJoint.anchor = m_TargetJoint.transform.InverseTransformPoint (worldPos);		
-		}
-		else if (Input.GetMouseButtonUp (0))
-		{
-			Destroy (m_TargetJoint);
-			m_TargetJoint = null;
-			return;
-		}
+            m_TargetJoint = body.gameObject.AddComponent<TargetJoint2D>();
+            m_TargetJoint.dampingRatio = m_Damping;
+            m_TargetJoint.frequency = m_Frequency;
+            m_TargetJoint.anchor = m_TargetJoint.transform.InverseTransformPoint(worldPos);
 
-		// Update the joint target.
-		if (m_TargetJoint)
-		{
-			m_TargetJoint.target = worldPos;
+            m_HeldObject = body; // Set the currently held object
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (m_TargetJoint != null)
+            {
+                Destroy(m_TargetJoint);
+                m_TargetJoint = null;
+            }
+            m_HeldObject = null; // Clear the currently held object
+        }
 
-			// Draw the line between the target and the joint anchor.
-			if (m_DrawDragLine)
-				Debug.DrawLine (m_TargetJoint.transform.TransformPoint (m_TargetJoint.anchor), worldPos, m_Color);
-		}
-	}
+        if (m_TargetJoint)
+        {
+            m_TargetJoint.target = worldPos;
+
+            if (m_DrawDragLine)
+                Debug.DrawLine(m_TargetJoint.transform.TransformPoint(m_TargetJoint.anchor), worldPos, m_Color);
+        }
+    }
 }

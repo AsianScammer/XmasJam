@@ -9,14 +9,11 @@ public class SplitObject : MonoBehaviour
     public Vector2 initialForceRange = new Vector2(2f, 2f); // Initial random force range for fragments
     public float spawnOffsetFactor = 0.5f; // Factor of sprite width for spacing
 
-    private void Update()
-    {
-        OnSpace();
-    }
 
-    protected virtual void OnSpace()
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             DestroyAndFragment();
         }

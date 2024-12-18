@@ -6990,8 +6990,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -22.615, y: 139}
-  m_SizeDelta: {x: 269.09, y: 67.4033}
+  m_AnchoredPosition: {x: -22.615, y: 123.36}
+  m_SizeDelta: {x: 329.6467, y: 84.7052}
   m_Pivot: {x: 0.5, y: 0.6282807}
 --- !u!114 &1646440138
 MonoBehaviour:
@@ -7016,7 +7016,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: b9b3281df3ec24b42921ba2e9496999b, type: 3}
     m_FontSize: 53
-    m_FontStyle: 3
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 63
@@ -7026,7 +7026,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Title
+  m_Text: Pack the Sleigh
 --- !u!222 &1646440139
 CanvasRenderer:
   m_ObjectHideFlags: 0
